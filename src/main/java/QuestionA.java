@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 /**
@@ -18,28 +19,21 @@ public class QuestionA {
      *  @return String last word that repeat, or null if not found;
      * */
     public static String lastRepeated(final Stream input) {
-        String[] words = parseStream(input);
-
+        String[] words = splitStreamIntoWords(input);
         LinkedHashMap<String, Integer> occurrencesMap = new LinkedHashMap<String, Integer>();
+        String lastOccurrence = null;
 
         for (String word : words) {
             if (occurrencesMap.containsKey(word)) {
                 // Occurrence found: just increment occurrences accumulator.
                 int accumulatedOccurrences = occurrencesMap.get(word);
                 occurrencesMap.put(word, accumulatedOccurrences + 1);
+                lastOccurrence = word;
             }
             else {
                 // No occurrence of current word found.
                 // Add this word to map with a single occurrence.
                 occurrencesMap.put(word, 1);
-            }
-        }
-
-        // search for the last key that repeats in map
-        String lastOccurrence = null;
-        for (String key : words) {
-            if (occurrencesMap.get(key) > 1) {
-                lastOccurrence = key;
             }
         }
 
@@ -55,18 +49,18 @@ public class QuestionA {
      * Output:
      *  @return String[] stream tokenized;
      * */
-    private static String[] parseStream(final Stream stream) {
-        StringBuffer sb = new StringBuffer();
+    private static String[] splitStreamIntoWords(final Stream stream) {
+        StringBuilder sb = new StringBuilder();
 
         while(stream.hasNext()) {
             char nextChar = stream.next();
 
-            // Ignore dots, since they aren't part of words.
-            if (nextChar != '.') {
+            // Ignore dots and commas, since they aren't part of words.
+            if (!Arrays.asList('.', ',').contains(nextChar)) {
                 sb.append(nextChar);
             }
         }
 
-        return sb.toString().split(" ");
+        return sb.toString().split("\\s+");
     }
 }

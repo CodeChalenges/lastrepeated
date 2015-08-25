@@ -29,6 +29,14 @@ public class QuestionATest {
 
     @Test
     public void testStream3() {
+        Stream input = new InputStream("The angry dog was red, and the angry cat was red too.");
+        String lastRepeatedWord = QuestionA.lastRepeated(input);
+        assertNotNull(lastRepeatedWord);
+        assertEquals(lastRepeatedWord, "red");
+    }
+
+    @Test
+    public void testStream4() {
         Stream input = new InputStream("The angry dog was red.");
         String lastRepeatedWord = QuestionA.lastRepeated(input);
         assertNull(lastRepeatedWord);
