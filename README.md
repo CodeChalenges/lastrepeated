@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mauricioklein/lastrepeated.svg?branch=master)](https://travis-ci.org/mauricioklein/lastrepeated)
+
 # Last Repeated
 
 Problem proposed by Amazon recruting team to the software engineer role.
