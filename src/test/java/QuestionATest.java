@@ -37,4 +37,18 @@ public class QuestionATest {
         String lastRepeatedWord = QuestionA.lastRepeated(input);
         assertNull(lastRepeatedWord);
     }
+
+    @Test
+    public void testStream5() {
+        Stream input = new InputStream("    ");
+        String lastRepeatedWord = QuestionA.lastRepeated(input);
+        assertNull(lastRepeatedWord);
+    }
+
+    @Test
+    public void testStream6() {
+        Stream input = new InputStream("");
+        String lastRepeatedWord = QuestionA.lastRepeated(input);
+        assertNull(lastRepeatedWord);
+    }
 }
