@@ -1,3 +1,5 @@
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 
@@ -19,41 +21,50 @@ public class QuestionA {
      *  @return String last word that repeat, or null if not found;
      * */
     public static String lastRepeated(final Stream input) {
-        String[] words = splitStreamIntoWords(input);
         LinkedHashMap<String, Integer> occurrencesMap = new LinkedHashMap<String, Integer>();
         String lastOccurrence = null;
+        String word;
 
-        for (String word : words) {
+        while ((word = getNextWord(input)) != null) {
             if (occurrencesMap.containsKey(word)) {
                 // Occurrence found: just increment occurrences accumulator.
                 int accumulatedOccurrences = occurrencesMap.get(word);
                 occurrencesMap.put(word, accumulatedOccurrences + 1);
                 lastOccurrence = word;
-            }
-            else {
+            } else {
                 // No occurrence of current word found.
                 // Add this word to map with a single occurrence.
                 occurrencesMap.put(word, 1);
             }
         }
 
-        return lastOccurrence;
+        return StringUtils.isNotBlank(lastOccurrence) ? lastOccurrence : null;
     }
 
     /**
-     * Split stream in its words
+     * Get next word on stream
      *
      * Input:
      *  @param stream a input stream containing words;
      *
      * Output:
-     *  @return String[] stream tokenized;
+     *  @return String next word;
+     *          null, if there isn't word left to process;
      * */
-    private static String[] splitStreamIntoWords(final Stream stream) {
+    private static String getNextWord(final Stream stream) {
         StringBuilder sb = new StringBuilder();
 
-        while(stream.hasNext()) {
+        if (!stream.hasNext()) {
+            return null;
+        }
+
+        while (stream.hasNext()) {
             char nextChar = stream.next();
+
+            // Space found: new word formed
+            if (nextChar == ' ') {
+                break;
+            }
 
             // Ignore dots and commas, since they aren't part of words.
             if (!Arrays.asList('.', ',').contains(nextChar)) {
@@ -61,6 +72,6 @@ public class QuestionA {
             }
         }
 
-        return sb.toString().split("\\s+");
+        return sb.toString();
     }
 }
